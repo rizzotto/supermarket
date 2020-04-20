@@ -13,6 +13,7 @@ routes.delete("/delete", ProductController.delete);
 //ManagerController
 routes.post("/openDay", ManagerController.openDay);
 routes.post("/closeDay", ManagerController.closeDay);
+routes.get("/getDayStatus", ManagerController.getDayStatus)
 
 //SellController
 routes.post("/registerSell", SellController.create);

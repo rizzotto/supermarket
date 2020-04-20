@@ -27,5 +27,14 @@ module.exports = {
         }
         req.app.locals.isOpen = false;
         return res.send("Day closed.");
+    },
+
+    /**
+     * Returns the current day operating status (true or false)
+     * @param {Request} req 
+     * @param {Response} res
+     */
+    getDayStatus(req, res){
+        res.send(req.app.locals.isOpen)
     }
 }
