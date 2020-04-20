@@ -9,10 +9,13 @@ app.use(cors());
 app.use(express.json());
 
 //se a gente for usar banco, q a sora falou q n precisa, da p usar com docker
-mongoose.connect("mongodb://localhost:27017/supermarket", {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://Rizzotto:1234@cluster0-1whvi.mongodb.net/test?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 requiredir("./src/models");
 
