@@ -1,0 +1,41 @@
+.list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+.button {
+    background-color: #FFF;
+    color: #62625d;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 0.5%;
+    border: 1px solid #dbe9f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+    padding: 1%;
+}
+
+.buyButton {
+    background-color: #5cbc7c;
+    color: #FFF;
+    font-size: 1.2rem;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 0.5%;
+    border: 1px solid #dbe9f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+    padding: 1%;
+}
+
+.price{
+    margin-top: 1%;
+    font-weight: bold;
+    color: #6370ff;
+}
+
