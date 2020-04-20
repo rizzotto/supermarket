@@ -72,9 +72,6 @@ h1{
     max-width: 100%;
 }
 
-.total {
-    
-}
 
 .container {
     display: flex;
@@ -82,3 +79,14 @@ h1{
     justify-content: space-evenly;
     flex-direction: row;
 }
+
+@media only screen and (max-width: 1050px) {
+    .container{
+        flex-direction: column;
+    }
+    .saleValue {
+        margin-top: 3%;
+        width: 300px;
+        font-size: 1rem;
+    }
+  }
