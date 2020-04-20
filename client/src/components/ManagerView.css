@@ -1,17 +1,18 @@
 h1{
     text-align: center;
     color: #6370ff;
+    font-size: 3rem;
 }
 
-button{
-    font-size: 1.35rem;
-    font-weight: bold;
-    width: 8rem;
-    height: 4rem;
-}
+
 
 .button-container{
     display: flex;
     margin: 5rem;
     justify-content: center;
+    margin-top: 5%;
+}
+
+.main-manager {
+    margin-top: 10%;
 }

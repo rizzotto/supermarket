@@ -5,7 +5,8 @@ import "./ProductList.css";
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [saleValue, setSaleValue] = useState(0);
 
   useEffect(() => {
     checkIfOpen();
@@ -18,8 +19,8 @@ export default function ProductList() {
     setProducts(data.data);
   }
 
-  async function checkIfOpen(){
-    setIsOpen((await api.get('/getDayStatus')).data)
+  async function checkIfOpen() {
+    setIsOpen((await api.get("/getDayStatus")).data);
   }
 
   async function handleItemClick(product, id) {
@@ -50,32 +51,44 @@ export default function ProductList() {
 
     console.log(products);
     const data = await api.post("/registerSell", { products });
-    console.log(data);
+    setSaleValue(data.data.value);
+    setSelectedItems([]);
   }
 
-  if(!isOpen){
-    return(
-      <h1>Aguarde o gerente abrir as operações dos caixas!</h1>
-    )
-  }
-  else{
+  if (!isOpen) {
+    return <h1>Aguarde o gerente abrir as operações dos caixas!</h1>;
+  } else {
     return (
-      <div className="list">
-        {products.map((e) => {
-          return (
-            <button
-              className="button"
-              id={e._id}
-              key={e._id}
-              onClick={() => handleItemClick(e, e._id)}
-            >
-              {e.name} <p className="price">{e.price} R$</p>
-            </button>
-          );
-        })}
-        <button className="buyButton" onClick={() => handleBuyClick()}>
-          Buy
-        </button>
+      <div className="container">
+        <div className="list">
+          <p className="itemTitle">
+            {selectedItems.length} produto(s) selecionado(s)
+          </p>
+          {products.map((e) => {
+            return (
+              <button
+                className="button"
+                id={e._id}
+                key={e._id}
+                onClick={() => handleItemClick(e, e._id)}
+              >
+                {e.name} <p className="price">{e.price} R$</p>
+              </button>
+            );
+          })}
+          <button className="buyButton" onClick={() => handleBuyClick()}>
+            Comprar
+          </button>
+        </div>
+        <div className="total">
+          {saleValue === 0 ? (
+            <p className="saleValue">Nenhuma compra realizada</p>
+          ) : (
+            <p className="saleValue">
+              Valor da compra: <strong>{saleValue.toFixed(2)} R$</strong>
+            </p>
+          )}
+        </div>
       </div>
     );
   }

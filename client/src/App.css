@@ -19,3 +19,33 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
+
+.routes {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; 
+    padding: 2rem;
+    background-color: #6370ff;
+    width: 100%;
+}
+
+.link {
+    color: #FFF;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+.background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #62625d;
+}
+
+.test {
+    height: 100vh;
+}
