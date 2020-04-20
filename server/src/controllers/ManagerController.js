@@ -12,7 +12,7 @@ module.exports = {
         }
         req.app.locals.isOpen = true
         const curDay = new Date();
-        return res.send(curDay);
+        return res.json({date: curDay.toLocaleTimeString(), isOpen: true});
     }, 
 
     /**
@@ -26,7 +26,8 @@ module.exports = {
             return res.sendStatus(400);
         }
         req.app.locals.isOpen = false;
-        return res.send("Day closed.");
+        const curDay = new Date();
+        return res.json({date: curDay.toLocaleTimeString(), isOpen: false});
     },
 
     /**

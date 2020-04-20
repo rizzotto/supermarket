@@ -5,7 +5,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
 import ProductList from "./components/ProductList";
+import ManagerView from "./components/ManagerView";
+
 import "./App.css";
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
       <Switch>
         <Route path="/caixa">
           <ProductList />
+        </Route>
+        <Route path="/gerente">
+          <ManagerView />
         </Route>
       </Switch>
     </div>

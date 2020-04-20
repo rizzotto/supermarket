@@ -5,7 +5,7 @@ import "./ProductList.css";
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [isOpen, setIsOpen] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     checkIfOpen();
