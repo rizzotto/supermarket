@@ -1,27 +1,23 @@
 const express = require("express");
 const routes = express.Router();
 
-const mongoose = require("mongoose");
-const Product = mongoose.model("Product");
+const ManagerController = require('./controllers/ManagerController')
+const ProductController = require('./controllers/ProductController')
+const SellController = require('./controllers/SellController')
 
-routes.get("/open", (req, res) => {
-  const date = new Date();
-  res.send({
-    date,
-  });
-});
+//ProductController
+routes.post("/product", ProductController.create);
+routes.get("/product", ProductController.index);
+routes.delete("/delete", ProductController.delete);
 
-routes.post("/registerSell", (req, res) => {
-  const date = new Date();
-  // res.send({
-  //   date,
-  // });
-  console.log(product + "   " + code + "   " + price);
-});
+//ManagerController
+routes.post("/openDay", ManagerController.openDay);
+routes.post("/closeDay", ManagerController.closeDay);
+routes.get("/getDayStatus", ManagerController.getDayStatus)
 
-routes.post("/product", async (req, res) => {
-  const product = await Product.create(req.body);
-  return res.json(product);
-});
+//SellController
+routes.post("/registerSell", SellController.create);
+routes.post("/registerSell", SellController.create);
+routes.get("/getSales", SellController.getCurrentDaySales);
 
 module.exports = routes;

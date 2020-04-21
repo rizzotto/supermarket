@@ -1,0 +1,27 @@
+h1{
+    text-align: center;
+    color: #6370ff;
+    font-size: 3rem;
+}
+
+
+
+.button-container{
+    display: flex;
+    margin: 5rem;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.main-manager {
+    margin-top: 10%;
+}
+
+.report {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 2rem;
+    color: #62625d;
+}
