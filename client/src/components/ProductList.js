@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import api from "../services/api";
-import "./ProductList.css";
+import React, { useState, useEffect } from 'react';
+import api from '../services/api';
+import './ProductList.css';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -14,24 +14,24 @@ export default function ProductList() {
   }, []);
 
   async function getListData() {
-    const data = await api.get("/product");
+    const data = await api.get('/product');
     console.log(data.data);
     setProducts(data.data);
   }
 
   async function checkIfOpen() {
-    setIsOpen((await api.get("/getDayStatus")).data);
+    setIsOpen((await api.get('/getDayStatus')).data);
   }
 
   async function handleItemClick(product, id) {
     if (
-      document.getElementById(id).style.border === "1px solid rgb(99, 112, 255)"
+      document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'
     ) {
-      document.getElementById(id).style.border = "1px solid #dbe9f5";
+      document.getElementById(id).style.border = '1px solid #dbe9f5';
       return;
     }
 
-    document.getElementById(id).style.border = "1px solid #6370ff";
+    document.getElementById(id).style.border = '1px solid #6370ff';
 
     setSelectedItems([...selectedItems, { product }]);
   }
@@ -46,11 +46,11 @@ export default function ProductList() {
         price: product.product.price,
       });
       document.getElementById(product.product._id).style.border =
-        "1px solid #dbe9f5";
+        '1px solid #dbe9f5';
     });
 
     console.log(products);
-    const data = await api.post("/registerSell", { products });
+    const data = await api.post('/registerSell', { products });
     setSaleValue(data.data.value);
     setSelectedItems([]);
   }
