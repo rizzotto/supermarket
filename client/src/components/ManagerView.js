@@ -32,8 +32,10 @@ export default function ManagerView() {
       console.log(value);
     });
     console.log(data.data);
-    setTotalValue(value);
-    setDay(data.data[0].createdAt);
+    if (data.data.length != 0) {
+      setTotalValue(value);
+      setDay(data.data[0].createdAt);
+    }
   }
   return (
     <div className="main-manager">
@@ -45,13 +47,16 @@ export default function ManagerView() {
         >
           {!isOpen ? 'Abrir caixas' : 'Fechar caixas'}
         </button>
+        {console.log(isOpen)}
       </div>
 
       {isOpen ? (
         <></>
       ) : (
         <div className="report">
-          <p>Comprovante do dia {day ? <strong>{day}</strong> : <></>}</p>
+          <p>
+            Comprovante do dia <strong>{day}</strong>
+          </p>
           <p>
             Valor Totalizado: <strong>{totalValue} R$</strong>
           </p>
