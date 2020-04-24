@@ -4,6 +4,7 @@ import './ManagerView.css';
 
 export default function ManagerView() {
   const [isOpen, setIsOpen] = useState(false);
+  const [validateSell, setValidateSell] = useState(true);
   const [totalValue, setTotalValue] = useState(0);
   const [day, setDay] = useState('');
 
@@ -18,10 +19,12 @@ export default function ManagerView() {
 
   async function handleOpenDay() {
     setIsOpen((await api.post('/openDay')).data.isOpen);
+    setValidateSell(true);
   }
 
   async function handleCloseDay() {
     setIsOpen((await api.post('/closeDay')).data.isOpen);
+    setValidateSell(false);
   }
 
   async function getReportDay() {
@@ -50,7 +53,7 @@ export default function ManagerView() {
         {console.log(isOpen)}
       </div>
 
-      {isOpen ? (
+      {validateSell ? (
         <></>
       ) : (
         <div className="report">
