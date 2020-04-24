@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import api from "../services/api";
-import "./ManagerView.css";
+import React, { useState, useEffect } from 'react';
+import api from '../services/api';
+import './ManagerView.css';
 
 export default function ManagerView() {
   const [isOpen, setIsOpen] = useState(false);
+  const [validateSell, setValidateSell] = useState(true);
   const [totalValue, setTotalValue] = useState(0);
-  const [day, setDay] = useState("");
+  const [day, setDay] = useState('');
 
   useEffect(() => {
     checkIfOpen();
@@ -13,27 +14,31 @@ export default function ManagerView() {
   }, []);
 
   async function checkIfOpen() {
-    setIsOpen((await api.get("/getDayStatus")).data);
+    setIsOpen((await api.get('/getDayStatus')).data);
   }
 
   async function handleOpenDay() {
-    setIsOpen((await api.post("/openDay")).data.isOpen);
+    setIsOpen((await api.post('/openDay')).data.isOpen);
+    setValidateSell(true);
   }
 
   async function handleCloseDay() {
-    setIsOpen((await api.post("/closeDay")).data.isOpen);
+    setIsOpen((await api.post('/closeDay')).data.isOpen);
+    setValidateSell(false);
   }
 
   async function getReportDay() {
-    const data = await api.get("/getSales");
+    const data = await api.get('/getSales');
     let value = 0;
     data.data.map((e) => {
       value += e.value;
       console.log(value);
     });
     console.log(data.data);
-    setTotalValue(value);
-    setDay(data.data[0].createdAt);
+    if (data.data.length != 0) {
+      setTotalValue(value);
+      setDay(data.data[0].createdAt);
+    }
   }
   return (
     <div className="main-manager">
@@ -43,16 +48,17 @@ export default function ManagerView() {
           className="button"
           onClick={() => (!isOpen ? handleOpenDay() : handleCloseDay())}
         >
-          {!isOpen ? "Abrir caixas" : "Fechar caixas"}
+          {!isOpen ? 'Abrir caixas' : 'Fechar caixas'}
         </button>
+        {console.log(isOpen)}
       </div>
 
-      {isOpen ? (
+      {validateSell ? (
         <></>
       ) : (
         <div className="report">
           <p>
-            Comprovante do dia: <strong>{day}</strong>
+            Comprovante do dia <strong>{day}</strong>
           </p>
           <p>
             Valor Totalizado: <strong>{totalValue} R$</strong>

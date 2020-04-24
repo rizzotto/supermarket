@@ -1,10 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import ProductList from "./components/ProductList";
-import ManagerView from "./components/ManagerView";
+import ProductList from './components/ProductList';
+import ManagerView from './components/ManagerView';
 
-import "./App.css";
+import './App.css';
 
 function App() {
   return (
