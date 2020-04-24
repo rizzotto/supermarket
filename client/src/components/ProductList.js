@@ -28,6 +28,9 @@ export default function ProductList() {
       document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'
     ) {
       document.getElementById(id).style.border = '1px solid #dbe9f5';
+      setSelectedItems(
+        selectedItems.filter((e) => e.product.name !== product.name)
+      );
       return;
     }
 
@@ -61,6 +64,7 @@ export default function ProductList() {
     return (
       <div className="container">
         <div className="list">
+          {console.log(selectedItems)}
           <p className="itemTitle">
             {selectedItems.length} produto(s) selecionado(s)
           </p>
