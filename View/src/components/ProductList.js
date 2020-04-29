@@ -1,65 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import api from '../services/api';
-import './ProductList.css';
+import React, { useState, useEffect } from 'react'
+import api from '../services/api'
+import './ProductList.css'
 
 export default function ProductList() {
-  const [products, setProducts] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [saleValue, setSaleValue] = useState(0);
+  const [products, setProducts] = useState([])
+  const [selectedItems, setSelectedItems] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [saleValue, setSaleValue] = useState(0)
+  const [payment, setPayment] = useState('')
 
   useEffect(() => {
-    checkIfOpen();
-    getListData();
-  }, []);
+    checkIfOpen()
+    getListData()
+  }, [])
 
   async function getListData() {
-    const data = await api.get('/product');
-    console.log(data.data);
-    setProducts(data.data);
+    const data = await api.get('/product')
+    console.log(data.data)
+    setProducts(data.data)
   }
 
   async function checkIfOpen() {
-    setIsOpen((await api.get('/getDayStatus')).data);
+    setIsOpen((await api.get('/getDayStatus')).data)
   }
 
   async function handleItemClick(product, id) {
     if (
       document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'
     ) {
-      document.getElementById(id).style.border = '1px solid #dbe9f5';
+      document.getElementById(id).style.border = '1px solid #dbe9f5'
       setSelectedItems(
         selectedItems.filter((e) => e.product.name !== product.name)
-      );
-      return;
+      )
+      return
     }
 
-    document.getElementById(id).style.border = '1px solid #6370ff';
+    document.getElementById(id).style.border = '1px solid #6370ff'
 
-    setSelectedItems([...selectedItems, { product }]);
+    setSelectedItems([...selectedItems, { product }])
   }
 
   async function handleBuyClick() {
-    const products = [];
+    const products = []
 
     selectedItems.map((product) => {
       products.push({
         name: product.product.name,
         code: product.product.code,
         price: product.product.price,
-      });
+      })
       document.getElementById(product.product._id).style.border =
-        '1px solid #dbe9f5';
-    });
+        '1px solid #dbe9f5'
+    })
 
-    console.log(products);
-    const data = await api.post('/registerSell', { products });
-    setSaleValue(data.data.value);
-    setSelectedItems([]);
+    // console.log(products)
+    const data = await api.post('/registerSale', { products, payment: payment })
+    console.log(data)
+    setSaleValue(data.data.value)
+
+    setSelectedItems([])
+  }
+
+  async function paymentCheck(event) {
+    console.log(event.target.value)
+    await setPayment(event.target.value)
   }
 
   if (!isOpen) {
-    return <h1>Aguarde o gerente abrir as operações dos caixas!</h1>;
+    return <h1>Aguarde o gerente abrir as operações dos caixas!</h1>
   } else {
     return (
       <div className="container">
@@ -78,8 +86,13 @@ export default function ProductList() {
               >
                 {e.name} <p className="price">{e.price} R$</p>
               </button>
-            );
+            )
           })}
+          <div className="payment" onChange={(e) => paymentCheck(e)}>
+            <input type="radio" value="Debit" name="payment" /> Débito
+            <input type="radio" value="Credit" name="payment" /> Crédito
+            <input type="radio" value="Cash" name="payment" /> Dinheiro
+          </div>
           <button className="buyButton" onClick={() => handleBuyClick()}>
             Comprar
           </button>
@@ -94,6 +107,6 @@ export default function ProductList() {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
