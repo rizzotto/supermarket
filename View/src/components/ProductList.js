@@ -8,6 +8,8 @@ export default function ProductList() {
   const [isOpen, setIsOpen] = useState(false)
   const [saleValue, setSaleValue] = useState(0)
   const [payment, setPayment] = useState('')
+  const [exchange, setExchange] = useState('')
+  const [showExchange, setShowExchange] = useState('')
 
   useEffect(() => {
     checkIfOpen()
@@ -66,6 +68,18 @@ export default function ProductList() {
     await setPayment(event.target.value)
   }
 
+  async function handleExchange(e) {
+    await setExchange(e.target.value)
+  }
+
+  async function handleClickExchange() {
+    let value = 0
+    selectedItems.map((item) => {
+      value = value + item.product.price
+    })
+    await setShowExchange(exchange - value)
+  }
+
   if (!isOpen) {
     return <h1>Aguarde o gerente abrir as operações dos caixas!</h1>
   } else {
@@ -88,10 +102,30 @@ export default function ProductList() {
               </button>
             )
           })}
-          <div className="payment" onChange={(e) => paymentCheck(e)}>
-            <input type="radio" value="Debit" name="payment" /> Débito
-            <input type="radio" value="Credit" name="payment" /> Crédito
-            <input type="radio" value="Cash" name="payment" /> Dinheiro
+          <div className="change">
+            <div className="payment" onChange={(e) => paymentCheck(e)}>
+              <input type="radio" value="Débito" name="payment" /> Débito
+              <input type="radio" value="Crédito" name="payment" /> Crédito
+              <input type="radio" value="Dinheiro" name="payment" /> Dinheiro
+            </div>
+            {/* nao sei o que colocar de labels aqui */}
+            {payment === 'Dinheiro' ? (
+              <div className="exchange">
+                Valor:
+                <input
+                  onChange={(e) => handleExchange(e)}
+                  placeholder="troco"
+                ></input>
+                <button
+                  className="buyButton"
+                  onClick={() => handleClickExchange()}
+                >
+                  Enviar
+                </button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <button className="buyButton" onClick={() => handleBuyClick()}>
             Comprar
@@ -101,9 +135,19 @@ export default function ProductList() {
           {saleValue === 0 ? (
             <p className="saleValue">Nenhuma compra realizada</p>
           ) : (
-            <p className="saleValue">
+            <div className="saleValue">
               Valor da compra: <strong>{saleValue.toFixed(2)} R$</strong>
-            </p>
+              <div className="way">
+                Forma de Pagamento: <strong>{payment}</strong>
+                {payment === 'Dinheiro' ? (
+                  <p>
+                    Troco: <strong>{showExchange}</strong>
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>

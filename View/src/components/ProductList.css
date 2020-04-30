@@ -1,12 +1,55 @@
 .payment {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
+    margin-bottom: 4%; 
+    font-size: 1rem;  
 }
+
 
 .payment input {
     margin-right: 1%;
+    margin-left: 4%;  
+}
+
+.exchange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.exchange input {
+    width: 100%;
+    max-width: 100px;
+    margin-right: 4%;
     margin-left: 4%;
+    padding: 0.2rem;
+}
+
+.exchange button {
+    background-color: #6370ff;
+    padding: 0.2rem;
+    border-radius: 6px;
+}
+
+.change {
+    padding: 1rem;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #dbe9f5;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 4%;
+}
+
+.way {
+    margin-top: 2%;
+    font-size: 1.4rem;
 }
 
 .list{
@@ -98,6 +141,9 @@ h1{
     .saleValue {
         margin-top: 3%;
         width: 300px;
+        font-size: 1rem;
+    }
+    .way {
         font-size: 1rem;
     }
   }
