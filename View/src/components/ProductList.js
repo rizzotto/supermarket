@@ -61,6 +61,16 @@ export default function ProductList() {
     setSaleValue(data.data.value)
 
     setSelectedItems([])
+    let value = 0
+    selectedItems.map((item) => {
+      value = value + item.product.price
+    })
+    await setShowExchange(exchange - value)
+
+    setTimeout(() => {
+      setPayment('')
+      setSaleValue(0)
+    }, 5000)
   }
 
   async function paymentCheck(event) {
@@ -70,14 +80,6 @@ export default function ProductList() {
 
   async function handleExchange(e) {
     await setExchange(e.target.value)
-  }
-
-  async function handleClickExchange() {
-    let value = 0
-    selectedItems.map((item) => {
-      value = value + item.product.price
-    })
-    await setShowExchange(exchange - value)
   }
 
   if (!isOpen) {
@@ -111,17 +113,10 @@ export default function ProductList() {
             {/* nao sei o que colocar de labels aqui */}
             {payment === 'Dinheiro' ? (
               <div className="exchange">
-                Valor:
                 <input
                   onChange={(e) => handleExchange(e)}
-                  placeholder="troco"
+                  placeholder="Valor"
                 ></input>
-                <button
-                  className="buyButton"
-                  onClick={() => handleClickExchange()}
-                >
-                  Enviar
-                </button>
               </div>
             ) : (
               <></>
@@ -133,20 +128,24 @@ export default function ProductList() {
         </div>
         <div className="total">
           {saleValue === 0 ? (
-            <p className="saleValue">Nenhuma compra realizada</p>
+            <p className="saleValue">Realize uma compra</p>
           ) : (
             <div className="saleValue">
               Valor da compra: <strong>{saleValue.toFixed(2)} R$</strong>
-              <div className="way">
-                Forma de Pagamento: <strong>{payment}</strong>
-                {payment === 'Dinheiro' ? (
-                  <p>
-                    Troco: <strong>{showExchange}</strong>
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </div>
+              {payment !== '' ? (
+                <div className="way">
+                  Forma de Pagamento: <strong>{payment}</strong>
+                  {payment === 'Dinheiro' ? (
+                    <p>
+                      Troco: <strong>{showExchange}</strong>
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           )}
         </div>
