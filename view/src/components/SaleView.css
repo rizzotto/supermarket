@@ -135,6 +135,10 @@ h1{
     flex-direction: row;
 }
 
+.selected-list button{
+    border: 1px solid #de1738
+}
+
 @media only screen and (max-width: 1050px) {
     .container{
         flex-direction: column;

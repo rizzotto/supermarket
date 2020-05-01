@@ -25,20 +25,18 @@ export default function SaleView() {
     setIsOpen((await api.get('/getDayStatus')).data)
   }
 
-  async function handleItemClick(product, id) {
-    if (
-      document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'
-    ) {
+  async function removeItem(product, id) {
+    if (document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'){
       document.getElementById(id).style.border = '1px solid #dbe9f5'
-      setSelectedItems(
-        selectedItems.filter((e) => e.product.name !== product.name)
-      )
-      return
+      setSelectedItems(selectedItems.filter((e) => e.product.name !== product.name))
     }
+  }
 
-    document.getElementById(id).style.border = '1px solid #6370ff'
-
-    setSelectedItems([...selectedItems, { product }])
+  async function addItem(product, id){
+    if(document.getElementById(id).style.border !== '1px solid rgb(99, 112, 255)'){
+      document.getElementById(id).style.border = '1px solid #6370ff'
+      setSelectedItems([...selectedItems, { product }])
+    }
   }
 
   async function handleBuyClick() {
@@ -61,7 +59,7 @@ export default function SaleView() {
 
     const change = exchange - value
 
-    if(change < 0){
+    if(change < 0 && payment === "Dinheiro"){
       alert('Valor em dinheiro inválido!')
       return
     }
@@ -79,11 +77,11 @@ export default function SaleView() {
   }
 
   async function paymentCheck(event) {
-    setPayment(event.target.value)
+    await setPayment(event.target.value)
   }
 
   async function handleExchange(e) {
-    setExchange(e.target.value)
+    await setExchange(e.target.value)
   }
 
   if (!isOpen) {
@@ -98,7 +96,7 @@ export default function SaleView() {
                 className="button"
                 id={e._id}
                 key={e._id}
-                onClick={() => handleItemClick(e, e._id)}
+                onClick={() => addItem(e, e._id)}
               >
                 {e.name} #: {e.code} <p className="price">{e.price} R$</p>
               </button>
@@ -139,7 +137,7 @@ export default function SaleView() {
                   className="button"
                   id={e._id}
                   key={e._id}
-                  onClick={() => handleItemClick(e, e._id)}
+                  onClick={() => removeItem(e, e._id)}
                 >
                   {e.name} #: {e.code} <p className="price">{e.price} R$</p>
                 </button>
