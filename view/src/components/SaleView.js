@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
-import './ProductList.css'
+import './SaleView.css'
 
 export default function SaleView() {
   const [products, setProducts] = useState([])
@@ -18,7 +18,6 @@ export default function SaleView() {
 
   async function getListData() {
     const data = await api.get('/product')
-    console.log(data.data)
     setProducts(data.data)
   }
 
@@ -55,17 +54,23 @@ export default function SaleView() {
         '1px solid #dbe9f5'
     })
 
-    // console.log(products)
-    const data = await api.post('/registerSale', { products, payment: payment })
-    console.log(data)
-    setSaleValue(data.data.value)
-
-    setSelectedItems([])
     let value = 0
     selectedItems.map((item) => {
       value = value + item.product.price
     })
-    await setShowExchange(exchange - value)
+
+    const change = exchange - value
+
+    if(change < 0){
+      alert('Valor em dinheiro inválido!')
+      return
+    }
+
+    const data = await api.post('/registerSale', { products, payment: payment })
+    setSaleValue(data.data.value)
+
+    setSelectedItems([])
+    await setShowExchange(change)
 
     setTimeout(() => {
       setPayment('')
@@ -74,12 +79,11 @@ export default function SaleView() {
   }
 
   async function paymentCheck(event) {
-    console.log(event.target.value)
-    await setPayment(event.target.value)
+    setPayment(event.target.value)
   }
 
   async function handleExchange(e) {
-    await setExchange(e.target.value)
+    setExchange(e.target.value)
   }
 
   if (!isOpen) {
@@ -88,7 +92,6 @@ export default function SaleView() {
     return (
       <div className="container">
         <div className="list">
-          {console.log(selectedItems)}
           <p className="itemTitle">
             {selectedItems.length} produto(s) selecionado(s)
           </p>
@@ -116,6 +119,7 @@ export default function SaleView() {
                 <input
                   onChange={(e) => handleExchange(e)}
                   placeholder="Valor"
+                  type="number"
                 ></input>
               </div>
             ) : (
