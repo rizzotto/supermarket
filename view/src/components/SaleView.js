@@ -92,9 +92,6 @@ export default function SaleView() {
     return (
       <div className="container">
         <div className="list">
-          <p className="itemTitle">
-            {selectedItems.length} produto(s) selecionado(s)
-          </p>
           {products.map((e) => {
             return (
               <button
@@ -103,7 +100,7 @@ export default function SaleView() {
                 key={e._id}
                 onClick={() => handleItemClick(e, e._id)}
               >
-                {e.name} <p className="price">{e.price} R$</p>
+                {e.name} #: {e.code} <p className="price">{e.price} R$</p>
               </button>
             )
           })}
@@ -129,6 +126,26 @@ export default function SaleView() {
           <button className="buyButton" onClick={() => handleBuyClick()}>
             Comprar
           </button>
+        </div>
+        <div className="selected-products">
+          <p className="itemTitle">
+            {selectedItems.length} produto(s) selecionado(s)
+          </p>
+          <div className="selected-list">
+            {selectedItems.map((e) => {
+              e = e.product
+              return (
+                <button
+                  className="button"
+                  id={e._id}
+                  key={e._id}
+                  onClick={() => handleItemClick(e, e._id)}
+                >
+                  {e.name} #: {e.code} <p className="price">{e.price} R$</p>
+                </button>
+              )
+            })}
+          </div>
         </div>
         <div className="total">
           {saleValue === 0 ? (
