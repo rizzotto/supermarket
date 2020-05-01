@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import api from '../services/api'
 import './ProductList.css'
 
-export default function ProductList() {
+export default function SaleView() {
   const [products, setProducts] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
   const [isOpen, setIsOpen] = useState(false)
