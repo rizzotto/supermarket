@@ -10,6 +10,7 @@ export default function SaleView() {
   const [payment, setPayment] = useState('')
   const [exchange, setExchange] = useState('')
   const [showExchange, setShowExchange] = useState('')
+  const [productId, setProductId] = useState(0)
 
   useEffect(() => {
     checkIfOpen()
@@ -25,17 +26,19 @@ export default function SaleView() {
     setIsOpen((await api.get('/getDayStatus')).data)
   }
 
-  async function removeItem(product, id) {
-    if (document.getElementById(id).style.border === '1px solid rgb(99, 112, 255)'){
-      document.getElementById(id).style.border = '1px solid #dbe9f5'
-      setSelectedItems(selectedItems.filter((e) => e.product.name !== product.name))
-    }
-  }
+  async function addItem(product, id) {
+    // id = product._id
 
-  async function addItem(product, id){
-    if(document.getElementById(id).style.border !== '1px solid rgb(99, 112, 255)'){
+    if (
+      document.getElementById(id).style.border !== '1px solid rgb(99, 112, 255)'
+    ) {
       document.getElementById(id).style.border = '1px solid #6370ff'
       setSelectedItems([...selectedItems, { product }])
+    } else {
+      document.getElementById(id).style.border = '1px solid #dbe9f5'
+      setSelectedItems(
+        selectedItems.filter((e) => e.product.name !== product.name)
+      )
     }
   }
 
@@ -59,7 +62,7 @@ export default function SaleView() {
 
     const change = exchange - value
 
-    if(change < 0 && payment === "Dinheiro"){
+    if (change < 0 && payment === 'Dinheiro') {
       alert('Valor em dinheiro inválido!')
       return
     }
@@ -84,12 +87,31 @@ export default function SaleView() {
     await setExchange(e.target.value)
   }
 
+  function handleCodeInput(e) {
+    setProductId(e.target.value)
+  }
+
+  async function handleCodeClick() {
+    const product = products.filter((item) => {
+      return item.code === productId ? item : null
+    })[0]
+    if (!product) {
+      alert('codigo inválido')
+      return
+    }
+    await setSelectedItems(...selectedItems, { product })
+    addItem(product, product._id)
+  }
+
   if (!isOpen) {
     return <h1>Aguarde o gerente abrir as operações dos caixas!</h1>
   } else {
     return (
       <div className="container">
         <div className="list">
+          <p className="itemTitle">
+            {selectedItems.length} produto(s) selecionado(s)
+          </p>
           {products.map((e) => {
             return (
               <button
@@ -98,52 +120,26 @@ export default function SaleView() {
                 key={e._id}
                 onClick={() => addItem(e, e._id)}
               >
-                {e.name} #: {e.code} <p className="price">{e.price} R$</p>
+                {e.name}: #{e.code} <p className="price">{e.price} R$</p>
               </button>
             )
           })}
-          <div className="change">
-            <div className="payment" onChange={(e) => paymentCheck(e)}>
-              <input type="radio" value="Débito" name="payment" /> Débito
-              <input type="radio" value="Crédito" name="payment" /> Crédito
-              <input type="radio" value="Dinheiro" name="payment" /> Dinheiro
-            </div>
-            {/* nao sei o que colocar de labels aqui */}
-            {payment === 'Dinheiro' ? (
-              <div className="exchange">
-                <input
-                  onChange={(e) => handleExchange(e)}
-                  placeholder="Valor"
-                  type="number"
-                ></input>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
-          <button className="buyButton" onClick={() => handleBuyClick()}>
-            Comprar
-          </button>
         </div>
-        <div className="selected-products">
-          <p className="itemTitle">
-            {selectedItems.length} produto(s) selecionado(s)
-          </p>
-          <div className="selected-list">
-            {selectedItems.map((e) => {
-              e = e.product
-              return (
-                <button
-                  className="button"
-                  id={e._id}
-                  key={e._id}
-                  onClick={() => removeItem(e, e._id)}
-                >
-                  {e.name} #: {e.code} <p className="price">{e.price} R$</p>
-                </button>
-              )
-            })}
-          </div>
+        <div className="containerId">
+          <p>Digite o código do produto</p>
+          <input
+            className="inputId"
+            type="text"
+            onChange={(e) => handleCodeInput(e)}
+            placeholder="ID do produto"
+          ></input>
+          <button
+            className="bt"
+            onClick={() => handleCodeClick()}
+            className="idButton"
+          >
+            Adicionar
+          </button>
         </div>
         <div className="total">
           {saleValue === 0 ? (
@@ -156,7 +152,7 @@ export default function SaleView() {
                   Forma de Pagamento: <strong>{payment}</strong>
                   {payment === 'Dinheiro' ? (
                     <p>
-                      Troco: <strong>{showExchange}</strong>
+                      Troco: <strong>{showExchange} R$</strong>
                     </p>
                   ) : (
                     <></>
@@ -167,6 +163,31 @@ export default function SaleView() {
               )}
             </div>
           )}
+          <div className="change">
+            <div className="payment" onChange={(e) => paymentCheck(e)}>
+              <input type="radio" value="Débito" name="payment" /> Débito
+              <input type="radio" value="Crédito" name="payment" /> Crédito
+              <input type="radio" value="Dinheiro" name="payment" /> Dinheiro
+            </div>
+            {payment === 'Dinheiro' ? (
+              <div className="exchange">
+                <input
+                  onChange={(e) => handleExchange(e)}
+                  placeholder="Valor"
+                  type="text"
+                ></input>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <button
+            disabled={!payment}
+            className={!payment ? 'buyButtonDisabled' : 'buyButton'}
+            onClick={() => handleBuyClick()}
+          >
+            Comprar
+          </button>
         </div>
       </div>
     )
