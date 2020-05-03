@@ -27,8 +27,6 @@ export default function SaleView() {
   }
 
   async function addItem(product, id) {
-    // id = product._id
-
     if (
       document.getElementById(id).style.border !== '1px solid rgb(99, 112, 255)'
     ) {
@@ -76,7 +74,7 @@ export default function SaleView() {
     setTimeout(() => {
       setPayment('')
       setSaleValue(0)
-    }, 5000)
+    }, 2500)
   }
 
   async function paymentCheck(event) {
@@ -101,6 +99,10 @@ export default function SaleView() {
     }
     await setSelectedItems(...selectedItems, { product })
     addItem(product, product._id)
+  }
+
+  function isRadioSelected(paymentText){
+    return (paymentText === payment)
   }
 
   if (!isOpen) {
@@ -165,9 +167,9 @@ export default function SaleView() {
           )}
           <div className="change">
             <div className="payment" onChange={(e) => paymentCheck(e)}>
-              <input type="radio" value="Débito" name="payment" /> Débito
-              <input type="radio" value="Crédito" name="payment" /> Crédito
-              <input type="radio" value="Dinheiro" name="payment" /> Dinheiro
+              <input type="radio" value="Débito" name="payment" checked={isRadioSelected("Débito")}/> Débito
+              <input type="radio" value="Crédito" name="payment" checked={isRadioSelected("Crédito")}/> Crédito
+              <input type="radio" value="Dinheiro" name="payment" checked={isRadioSelected("Dinheiro")}/> Dinheiro
             </div>
             {payment === 'Dinheiro' ? (
               <div className="exchange">

@@ -32,9 +32,7 @@ export default function ManagerView() {
     let value = 0
     data.data.map((e) => {
       value += e.value
-      console.log(value)
     })
-    console.log(data.data)
     if (data.data.length != 0) {
       setTotalValue(value)
       setDay(data.data[0].createdAt)
@@ -50,7 +48,6 @@ export default function ManagerView() {
         >
           {!isOpen ? 'Abrir caixas' : 'Fechar caixas'}
         </button>
-        {console.log(isOpen)}
       </div>
 
       {validateSell ? (
