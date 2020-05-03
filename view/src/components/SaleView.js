@@ -41,6 +41,12 @@ export default function SaleView() {
   }
 
   async function handleBuyClick() {
+
+    if(!selectedItems || selectedItems.length === 0){
+      alert('Nennhum produto selecionado!')
+      return
+    }
+
     const products = []
 
     selectedItems.map((product) => {
