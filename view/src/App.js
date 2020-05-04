@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import SaleView from './components/SaleView';
-import ManagerView from './components/ManagerView';
+import SaleView from './views/components/SaleView';
+import ManagerView from './views/components/ManagerView';
 
 import './App.css';
 

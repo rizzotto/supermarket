@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import api from '../services/api'
+import SaleController from '../../controllers/SaleController'
+import ManagerController from '../../controllers/ManagerController'
+import ProductController from '../../controllers/ProductController'
 import './SaleView.css'
 
 export default function SaleView() {
@@ -18,12 +20,12 @@ export default function SaleView() {
   }, [])
 
   async function getListData() {
-    const data = await api.get('/product')
+    const data = await ProductController.index()
     setProducts(data.data)
   }
 
   async function checkIfOpen() {
-    setIsOpen((await api.get('/getDayStatus')).data)
+    setIsOpen(ManagerController.getDayStatus.isOpen)
   }
 
   async function addItem(product, id) {
@@ -71,7 +73,7 @@ export default function SaleView() {
       return
     }
 
-    const data = await api.post('/registerSale', { products, payment: payment })
+    const data = await SaleController.create({products, payment})
     setSaleValue(data.data.value)
 
     setSelectedItems([])

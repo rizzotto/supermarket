@@ -1,9 +1,9 @@
 const express = require('express')
 const routes = express.Router()
 
-const ManagerController = require('./controllers/ManagerController')
-const ProductController = require('./controllers/ProductController')
-const SaleController = require('./controllers/SaleController')
+const ManagerController = require('../../view/src/controllers/ManagerController')
+const ProductController = require('../../view/src/controllers/ProductController')
+const SaleController = require('../../view/src/controllers/SaleController')
 
 //ProductController
 routes.post('/product', ProductController.create)

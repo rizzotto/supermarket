@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import api from '../services/api'
+import ManagerController from '../../controllers/ManagerController'
+import SaleController from '../../controllers/SaleController'
 import './ManagerView.css'
 
 export default function ManagerView() {
@@ -14,26 +15,26 @@ export default function ManagerView() {
   }, [])
 
   async function checkIfOpen() {
-    setIsOpen((await api.get('/getDayStatus')).data)
+    setIsOpen(ManagerController.getDayStatus())
   }
 
   async function handleOpenDay() {
-    setIsOpen((await api.post('/openDay')).data.isOpen)
+    setIsOpen(ManagerController.openDay().isOpen)
     setValidateSell(true)
   }
 
   async function handleCloseDay() {
-    setIsOpen((await api.post('/closeDay')).data.isOpen)
+    setIsOpen(ManagerController.closeDay().isOpen)
     setValidateSell(false)
   }
 
   async function getReportDay() {
-    const data = await api.get('/getSales')
+    const data = await SaleController.getCurrentDaySales()
     let value = 0
     data.data.map((e) => {
       value += e.value
     })
-    if (data.data.length != 0) {
+    if (data.length != 0) {
       setTotalValue(value)
       setDay(data.data[0].createdAt)
     }
