@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
+import Formatter from '../helpers/Formatter'
 import './SaleView.css'
 
 export default function SaleView() {
@@ -67,7 +68,7 @@ export default function SaleView() {
     const change = exchange - value
 
     if (change < 0 && payment === 'Dinheiro') {
-      alert('Valor em dinheiro inválido!')
+      alert('Valor não suficiente!')
       return
     }
 
@@ -80,7 +81,7 @@ export default function SaleView() {
     setTimeout(() => {
       setPayment('')
       setSaleValue(0)
-    }, 2500)
+    }, 3000)
   }
 
   async function paymentCheck(event) {
@@ -128,7 +129,7 @@ export default function SaleView() {
                 key={e._id}
                 onClick={() => addItem(e, e._id)}
               >
-                {e.name}: #{e.code} <p className="price">{e.price} R$</p>
+                {e.name}: #{e.code} <p className="price">{Formatter.formatToBRCurrency(e.price)}</p>
               </button>
             )
           })}
@@ -140,9 +141,8 @@ export default function SaleView() {
             type="text"
             onChange={(e) => handleCodeInput(e)}
             placeholder="ID do produto"
-          ></input>
+          />
           <button
-            className="bt"
             onClick={() => handleCodeClick()}
             className="idButton"
           >
@@ -154,13 +154,13 @@ export default function SaleView() {
             <p className="saleValue">Realize uma compra</p>
           ) : (
             <div className="saleValue">
-              Valor da compra: <strong>{saleValue.toFixed(2)} R$</strong>
+              Valor da compra: <strong>{Formatter.formatToBRCurrency(saleValue)}</strong>
               {payment !== '' ? (
                 <div className="way">
                   Forma de Pagamento: <strong>{payment}</strong>
                   {payment === 'Dinheiro' ? (
                     <p>
-                      Troco: <strong>{showExchange} R$</strong>
+                      Troco: <strong>{Formatter.formatToBRCurrency(showExchange)}</strong>
                     </p>
                   ) : (
                     <></>
@@ -183,7 +183,7 @@ export default function SaleView() {
                   onChange={(e) => handleExchange(e)}
                   placeholder="Valor"
                   type="text"
-                ></input>
+                />
               </div>
             ) : (
               <></>
