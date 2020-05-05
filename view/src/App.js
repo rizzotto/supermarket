@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import ProductList from './components/ProductList';
+import SaleView from './components/SaleView';
 import ManagerView from './components/ManagerView';
 
 import './App.css';
@@ -25,7 +25,7 @@ function App() {
             <div className="background">Supermercado de Projarq</div>
           </Route>
           <Route path="/caixa">
-            <ProductList />
+            <SaleView />
           </Route>
           <Route path="/gerente">
             <ManagerView />
