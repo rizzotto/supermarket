@@ -21,7 +21,7 @@ module.exports = {
     console.log(req.body)
     const sale = await Sale.create({ value, payment })
 
-    res.json(sale)
+    return res.json(sale)
   },
 
   /**

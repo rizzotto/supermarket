@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const mongoose = require("./config/database")
 const requiredir = require("require-dir");
 const cors = require("cors");
 
@@ -10,14 +10,6 @@ app.use(express.json());
 
 //Stores if the current day operations are open or not (bool)
 app.locals.isOpen = false
-
-mongoose.connect(
-  "mongodb+srv://Rizzotto:1234@cluster0-1whvi.mongodb.net/test?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
 
 requiredir("./src/models");
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
+import Formatter from '../helpers/Formatter'
 import './ManagerView.css'
 
 export default function ManagerView() {
@@ -32,10 +33,8 @@ export default function ManagerView() {
     let value = 0
     data.data.map((e) => {
       value += e.value
-      console.log(value)
     })
-    console.log(data.data)
-    if (data.data.length != 0) {
+    if (data.data.length !== 0) {
       setTotalValue(value)
       setDay(data.data[0].createdAt)
     }
@@ -50,7 +49,6 @@ export default function ManagerView() {
         >
           {!isOpen ? 'Abrir caixas' : 'Fechar caixas'}
         </button>
-        {console.log(isOpen)}
       </div>
 
       {validateSell ? (
@@ -61,7 +59,7 @@ export default function ManagerView() {
             Comprovante do dia <strong>{day}</strong>
           </p>
           <p>
-            Valor Totalizado: <strong>{totalValue.toFixed(2)} R$</strong>
+            Valor Totalizado: <strong>{Formatter.formatToBRCurrency(totalValue)}</strong>
           </p>
         </div>
       )}
