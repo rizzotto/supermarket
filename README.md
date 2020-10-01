@@ -6,3 +6,5 @@
 
 **Diagrama do Sistema**
 <img src="./diagram.png"></img>
+
+Ty!

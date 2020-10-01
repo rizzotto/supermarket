@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import api from '../services/api'
 import './SaleView.css'
 
+import Controller from '../../../server/src/controllers/ProductController'
+
 export default function SaleView() {
   const [products, setProducts] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
@@ -18,7 +20,10 @@ export default function SaleView() {
   }, [])
 
   async function getListData() {
-    const data = await api.get('/product')
+    // const data = await api.get('/product')
+    const data = await Controller.index()
+    console.log(data)
+
     setProducts(data.data)
   }
 
